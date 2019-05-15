@@ -1,2 +1,3 @@
 # provenlogs
-Blockchain prove your logs 
+
+Prove logs on Blockchain with ProvenDB
