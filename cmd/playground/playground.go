@@ -2,12 +2,13 @@
  * @Author: guiguan
  * @Date:   2019-05-15T15:07:19+10:00
  * @Last modified by:   guiguan
- * @Last modified time: 2019-05-15T17:15:44+10:00
+ * @Last modified time: 2019-05-21T17:29:11+10:00
  */
 
 package main
 
 import (
+	"context"
 	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
@@ -15,8 +16,14 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io/ioutil"
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/x/bsonx"
 
 	"github.com/SouthbankSoftware/provenlogs/pkg/rsakey"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func generatePrvPubKeys() {
@@ -95,8 +102,42 @@ func verifySignature() {
 	fmt.Println("verified")
 }
 
+func mongoDriver() {
+	client, err := mongo.NewClient(options.
+		Client().
+		ApplyURI("mongodb://admin:testtest@provendb_dev_guiguan.provendb.io/dev_guiguan?ssl=true"))
+	if err != nil {
+		panic(err)
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+
+	err = client.Connect(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	cur, err := client.Database("dev_guiguan").ListCollections(ctx, bson.D{})
+	if err != nil {
+		panic(err)
+	}
+	defer cur.Close(ctx)
+
+	for cur.Next(ctx) {
+		doc := bsonx.Doc{}
+		err := cur.Decode(&doc)
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println(doc.Lookup("name"))
+	}
+}
+
 func main() {
 	// generatePrvPubKeys()
 	// signData()
-	verifySignature()
+	// verifySignature()
+	// mongoDriver()
 }
