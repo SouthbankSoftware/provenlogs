@@ -2,7 +2,7 @@
  * @Author: guiguan
  * @Date:   2019-05-22T14:59:33+10:00
  * @Last modified by:   guiguan
- * @Last modified time: 2019-05-25T10:21:11+10:00
+ * @Last modified time: 2019-05-28T10:55:51+10:00
  */
 
 package main
@@ -20,6 +20,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	counter := 0
 
