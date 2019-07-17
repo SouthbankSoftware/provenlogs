@@ -2,7 +2,7 @@
  * @Author: guiguan
  * @Date:   2019-05-20T15:53:05+10:00
  * @Last modified by:   guiguan
- * @Last modified time: 2019-05-27T13:20:57+10:00
+ * @Last modified time: 2019-07-16T16:31:05+10:00
  */
 
 package provenlogs
@@ -176,6 +176,8 @@ func (b *batcher) run(
 			destroy()
 			return err
 		case entry := <-b.entryCH:
+			b.entries = append(b.entries, entry)
+
 			if len(b.entries) >= b.batchSize {
 				b.ticker.Reset()
 				err := flush()
@@ -183,8 +185,6 @@ func (b *batcher) run(
 					return err
 				}
 			}
-
-			b.entries = append(b.entries, entry)
 		case <-b.ticker.C:
 			err := flush()
 			if err != nil {

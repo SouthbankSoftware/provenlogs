@@ -1,4 +1,5 @@
 /provenlogs*
 /playground*
 /zapper*
+/local
 *.pem
