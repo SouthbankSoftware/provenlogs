@@ -10,6 +10,8 @@ Continuously Prove Your Server Logs on Blockchain with ProvenDB to Verify Their 
 
 ## Usage
 
+There is a [Medium blog post](https://medium.com/provendb/prove-logs-on-blockchain-with-go-and-provendb-ca53d8a907e1) describing ProvenLogs in greater detail. The following are quick start guides.
+
 ### Run ProvenLogs Service
 
 You can run `provenlogs` to continuously prove the logs from an app. Currently, [Zap](https://github.com/uber-go/zap) production log format is supported.
