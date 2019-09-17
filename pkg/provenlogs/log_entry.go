@@ -2,7 +2,7 @@
  * @Author: guiguan
  * @Date:   2019-05-21T16:22:18+10:00
  * @Last modified by:   guiguan
- * @Last modified time: 2019-05-27T10:33:59+10:00
+ * @Last modified time: 2019-09-16T14:20:07+10:00
  */
 
 package provenlogs
@@ -143,7 +143,9 @@ func (l LogEntries) Verify(sigStr string, pub *rsa.PublicKey) error {
 		return err
 	}
 
-	return rsasig.Verify(hash, sigStr, pub)
+	_, err = rsasig.Verify(hash, sigStr, pub)
+
+	return err
 }
 
 // AttachSig attaches the given RSA signature to the last log entry
